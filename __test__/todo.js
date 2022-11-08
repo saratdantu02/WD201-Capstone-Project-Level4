@@ -25,20 +25,20 @@ describe("Todolist Test Suite", () => {
   })
   test("Should check retrieval of overdue items", () =>{
     overdue().forEach((a) => {
-        expect(Object.keys(a).length).toBe(3);
-        expect(overdue().length).toEqual(3);
+        expect(Object.keys(a).length).toBe(2);
+        expect(overdue().length).toEqual(2);
     });
   });
   test("Should check retrieval of due today items", () =>{
     dueToday().forEach((a) => {
-        expect(Object.keys(a).length).toBe(3);
-        expect(dueToday().length).toEqual(3);
+        expect(Object.keys(a).length).toBe(2);
+        expect(dueToday().length).toEqual(2);
     });
   });
   test("Should check retrieval of due later items", () =>{
     dueLater().forEach((a) => {
-        expect(Object.keys(a).length).toBe(3);
-        expect(dueLater().length).toEqual(3);
+        expect(Object.keys(a).length).toBe(2);
+        expect(dueLater().length).toEqual(2);
     });
   });
 });
