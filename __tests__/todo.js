@@ -1,44 +1,59 @@
 /* eslint-disable no-undef */
 const todoList = require("../todo");
 const { all, markAsComplete, add, overdue, dueToday, dueLater } = todoList();
-describe("Todolist Test Suite", () => {
-  beforeAll(()   => {
-    add({
-        title: "Test todo",
+
+describe("Todo List Test Suite", () => {
+  beforeAll(() => {
+    const todays_date = new Date();
+    const secs_in_day = 86400000;
+    [
+      {
+        title: "test todo-1",
+        completed: false,
+        dueDate: new Date(
+          todays_date.getTime() - secs_in_day
+        ).toLocaleDateString("en-CA"),
+      },
+      {
+        title: "Test todo-2",
         completed: false,
         dueDate: new Date().toLocaleDateString("en-CA"),
-      });
+      },
+      {
+        title: "Test todo-3",
+        completed: false,
+        dueDate: new Date(
+          todays_date.getTime() + secs_in_day
+        ).toLocaleDateString("en-CA"),
+      },
+    ].forEach(add);
   });
-  test("Should add new todo", () => {
-    const todoItemCount = all.length; 
+  test("checks creating a new todo", () => {
+    expect(all.length).toEqual(3);
     add({
-      title: "Test todo",
+      title: "Test todo-4",
       completed: false,
       dueDate: new Date().toLocaleDateString("en-CA"),
     });
-    expect(all.length).toBe(todoItemCount + 1);
+
+    expect(all.length).toEqual(4);
   });
-  test("Should mark a todo as complete", () =>{
-    expect(all[0].completed).toBe(false);
+
+  test("checks marking a todo as completed", () => {
+    expect(all[0].completed).toEqual(false);
     markAsComplete(0);
-    expect(all[0].completed).toBe(true);
-  })
-  test("Should check retrieval of overdue items", () =>{
-    overdue().forEach((a) => {
-        expect(Object.keys(a).length).toBe(2);
-        expect(overdue().length).toEqual(2);
-    });
+    expect(all[0].completed).toEqual(true);
   });
-  test("Should check retrieval of due today items", () =>{
-    dueToday().forEach((a) => {
-        expect(Object.keys(a).length).toBe(2);
-        expect(dueToday().length).toEqual(2);
-    });
+
+  test("checks retrieval of overdue items", () => {
+    expect(overdue().length).toEqual(1);
   });
-  test("Should check retrieval of due later items", () =>{
-    dueLater().forEach((a) => {
-        expect(Object.keys(a).length).toBe(2);
-        expect(dueLater().length).toEqual(2);
-    });
+
+  test("checks retrieval of due today items", () => {
+    expect(dueToday().length).toEqual(2);
+  });
+
+  test("checks retrieval of due later items", () => {
+    expect(dueLater().length).toEqual(1);
   });
 });
